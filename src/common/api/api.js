@@ -15,7 +15,7 @@ export async function request(url, config) {
 	const response = (await axios.request(config)).data;
 	const status = response.status;
 	if ((status >= 200 && status < 300) || status === 304) {
-		return response.data;
+		return response.data || {};
 	} else {
 		const error = new Error(response.message);
 		error.statusCode = status;

@@ -51,13 +51,13 @@ a:hover { color: #f91; }
 	line-height: 1.5;
 }
 .l-main__title {
-	padding: 10px;
+	padding: 12px 15px;
 	background: #f0f0f0;
 	text-shadow: 1px 1px 0 #fff;
 	font-size: 22px;
 	font-weight: normal;
 }
-.l-main__body { padding: 20px; }
+.l-main__body { padding: 26px; }
 </style>
 <style lang="scss" scoped>
 .p-error {

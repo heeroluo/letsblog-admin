@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Home from './views/home/Home.vue';
+import CategoryList from './views/category/List.vue';
+import CategoryForm from './views/category/Form.vue';
 
 Vue.use(Router);
 
@@ -10,8 +12,22 @@ export default new Router({
 	routes: [
 		{
 			path: '/',
-			name: 'home',
 			component: Home
+		},
+
+		{
+			path: '/category/list',
+			component: CategoryList
+		},
+
+		{
+			path: '/category/create',
+			component: CategoryForm
+		},
+
+		{
+			path: '/category/update/:id',
+			component: CategoryForm
 		}
 		// {
 		// 	path: '/about',

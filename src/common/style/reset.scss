@@ -1,0 +1,37 @@
+body {
+	margin: 0;
+	line-height: 1;
+	word-wrap: break-word;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-text-size-adjust: none;
+}
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd, th, td, input, button {
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	font-size: inherit;
+}
+li { list-style-type: none; }
+img {
+	border: 0;
+	vertical-align: middle;
+}
+a { text-decoration: none; }
+
+body, input, textarea, button { font-family: Helvetica; }
+input {
+	border-radius: 0;
+	-webkit-appearance: none;
+}
+input[type=checkbox] { -webkit-appearance: checkbox; }
+input[type=submit], input[type=button] { border: none; }
+input[disabled] { opacity: 1; }
+input:focus, textarea:focus, button { outline: none; }
+
+
+/* placeholder默认颜色 */
+input::-webkit-input-placeholder { color: #b4b5b6 !important; }
+input::-moz-placeholder { color: #b4b5b6 !important; }
+input:-ms-input-placeholder { color: #b4b5b6 !important; }

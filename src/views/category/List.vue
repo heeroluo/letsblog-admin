@@ -49,14 +49,19 @@ export default {
 	methods: {
 		async deleteCategory(id) {
 			if (window.confirm('确认要删除此分类吗？')) {
-				const result = await request('admin/category/delete/' + id, {
-					method: 'delete'
+				await request('admin/category/delete', {
+					method: 'delete',
+					params: { id }
 				});
+				this.list = this.list.filter((item) => {
+					return item.categoryid !== id;
+				});
+				alert('操作成功');
 			}
 		}
 	},
 
-	async beforeCreate() {
+	async created() {
 		this.list = (await request('admin/category/list')).categoryList || [];
 	}
 };

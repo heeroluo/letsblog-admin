@@ -19,7 +19,7 @@
 				<ul class="c-header__nav__menu-list">
 					<li class="c-header__nav__menu-list__item"><router-link to="/article/list">文章管理</router-link></li>
 					<li class="c-header__nav__menu-list__item" v-if="me.usergroup.perm_manage_article >= 2">
-						分类 ( <router-link to="/category/create/">新建</router-link> | <router-link to="/category/list">管理</router-link> )
+						分类 ( <router-link to="/category/create">新建</router-link> | <router-link to="/category/list">管理</router-link> )
 					</li>
 				</ul>
 			</template>

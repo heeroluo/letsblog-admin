@@ -3,6 +3,7 @@
 		<template v-if="me">
 			<admin-header />
 			<router-view class="l-main" />
+			<loading :visible="isLoading" />
 		</template>
 		<template v-else-if="me === false">
 			<div class="p-error">
@@ -16,12 +17,38 @@
 <script>
 import loadMe from '@/common/mixins/load-me';
 import Header from '@/components/header/Header';
+import Loading from '@/components/loading/Loading';
+import axios from 'axios';
 
 export default {
 	mixins: [loadMe],
 
 	components: {
-		'admin-header': Header
+		'admin-header': Header,
+		Loading
+	},
+
+	data() {
+		return {
+			isLoading: false
+		};
+	},
+
+	beforeCreate() {
+		axios.interceptors.request.use((config) => {
+			if (config.showLoading !== false) {
+				this.isLoading = true;
+			}
+			return config;
+		});
+		axios.interceptors.response.use((res) => {
+			this.isLoading = false;
+			return res;
+		}, (error) => {
+			this.isLoading = false;
+			alert('操作出错： ' + error.message);
+			return Promise.reject(error);
+		});
 	},
 
 	methods: {

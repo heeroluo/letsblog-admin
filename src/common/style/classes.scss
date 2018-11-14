@@ -73,41 +73,27 @@
 
 
 /* 表单布局 */
-.g-form-layout__row {
+.g-form__row {
 	display: flex;
 	padding: 10px 0;
 	margin-left: 10px;
 }
-.g-form-layout__row__col {
+.g-form__row__col {
 	flex: 1;
 }
 
 .g-form-item {
-	position: relative;
+	display: flex;
 	margin-right: 1em;
 	padding-right: 30px;
 }
-.g-form-item__label {
-	margin: 0 0 0.5em 0.3em;
-	height: 27px;
-	overflow: hidden;
-}
-.g-form-item__label .g-form-item__required { vertical-align: middle; }
 .g-form-item__side {
 	width: 30px;
 	text-align: center;
-	position: absolute;
-	right: 0;
-	top: 0;
 }
 
-.g-form-item__tips {
-	margin: 3px 0;
-	font-style: italic;
-	font-size: 0.9em;
-	color: #b8b8b8;
-}
-.g-form-item__required {
+
+.g-required {
 	font-style: normal;
 	font-size: 18px;
 	font-family: arial;

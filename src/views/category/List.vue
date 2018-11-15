@@ -19,7 +19,7 @@
 							<td style="text-align: center;">{{ item.totalarticles }}</td>
 							<td style="word-spacing: 1em; text-align: center;">
 								<router-link :to="'/category/update/' + item.categoryid">修改</router-link>{{' '}}
-								<span class="g-delete" @click="deleteCategory(item.categoryid)">删除</span>
+								<span class="g-delete" @click="del(item.categoryid)">删除</span>
 							</td>
 						</tr>
 					</template>
@@ -47,7 +47,7 @@ export default {
 	},
 
 	methods: {
-		async deleteCategory(id) {
+		async del(id) {
 			if (window.confirm('确认要删除此分类吗？')) {
 				await request('admin/category/delete', {
 					method: 'delete',

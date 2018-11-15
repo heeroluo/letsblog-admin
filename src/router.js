@@ -3,6 +3,11 @@ import Router from 'vue-router';
 import Home from './views/home/Home.vue';
 import CategoryList from './views/category/List.vue';
 import CategoryForm from './views/category/Form.vue';
+import OptionsForm from './views/options/Form.vue';
+import LinkList from './views/link/List.vue';
+import LinkForm from './views/link/Form.vue';
+import UserGroupList from './views/usergroup/List.vue';
+import UserGroupForm from './views/usergroup/Form.vue';
 
 Vue.use(Router);
 
@@ -19,16 +24,46 @@ export default new Router({
 			path: '/category/list',
 			component: CategoryList
 		},
-
 		{
 			path: '/category/create',
 			component: CategoryForm
 		},
-
 		{
 			path: '/category/update/:id',
 			component: CategoryForm
+		},
+
+		{
+			path: '/options/update',
+			component: OptionsForm
+		},
+
+		{
+			path: '/link/list',
+			component: LinkList
+		},
+		{
+			path: '/link/create',
+			component: LinkForm
+		},
+		{
+			path: '/link/update/:id',
+			component: LinkForm
+		},
+
+		{
+			path: '/usergroup/list',
+			component: UserGroupList
+		},
+		{
+			path: '/usergroup/create',
+			component: UserGroupForm
+		},
+		{
+			path: '/usergroup/update/:id',
+			component: UserGroupForm
 		}
+
 		// {
 		// 	path: '/about',
 		// 	name: 'about',

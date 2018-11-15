@@ -5,26 +5,27 @@
 			<div class="g-form__row">
 				<div class="g-form__row__col">
 					<div class="g-form-item">
-						<input ref="categoryname" class="g-textbox" type="text" placeholder="分类名" maxlength="20" v-model.trim="category.categoryname" />
-						<div class="g-form-item__side"><em class="g-required">*</em></div>
+						<p class="g-form-item__label">分类名<em class="g-required">*</em></p>
+						<input ref="categoryname" class="g-textbox" type="text" maxlength="20" v-model.trim="category.categoryname" />
 					</div>
 				</div>
 				<div class="g-form__row__col">
-					<input ref="categoryname_en" class="g-textbox" type="text" placeholder="英文分类名" maxlength="20" v-model.trim="category.categoryname_en" />
+					<p class="g-form-item__label">英文分类名</p>
+					<input ref="categoryname_en" class="g-textbox" type="text" maxlength="20" v-model.trim="category.categoryname_en" />
 				</div>
 			</div>
 
 			<div class="g-form__row">
 				<div class="g-form__row__col">
 					<div class="g-form-item">
-						<input ref="weight" class="g-textbox" type="text" placeholder="权重（0~255）" maxlength="3" v-model.number="category.weight" />
-						<div class="g-form-item__side"><em class="g-required">*</em></div>
+						<p class="g-form-item__label">权重<em class="g-required">*</em></p>
+						<input ref="weight" class="g-textbox" type="text" placeholder="0~255" maxlength="3" v-model.number="category.weight" />
 					</div>
 				</div>
 				<div class="g-form__row__col"></div>
 			</div>
 
-			<div class="g-form__row">
+			<div class="g-form__row g-form__row-button">
 				<input type="submit" value="提 交" class="g-button" />
 			</div>
 		</form>
@@ -90,7 +91,9 @@ export default {
 		const id = this.$route.params.id;
 		if (id) {
 			this.category = (
-				await request('admin/category/read/' + id)
+				await request('admin/category/read', {
+					params: { id }
+				})
 			).category;
 			this.isUpdate = true;
 		} else {

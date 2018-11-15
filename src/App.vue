@@ -2,8 +2,8 @@
 	<div>
 		<template v-if="me">
 			<admin-header />
-			<router-view class="l-main" />
-			<loading :visible="isLoading" />
+			<router-view :key="$route.fullPath" class="l-main" />
+			<loading :visible="isLoading > 0" />
 		</template>
 		<template v-else-if="me === false">
 			<div class="p-error">
@@ -30,22 +30,22 @@ export default {
 
 	data() {
 		return {
-			isLoading: false
+			isLoading: 0
 		};
 	},
 
 	beforeCreate() {
 		axios.interceptors.request.use((config) => {
 			if (config.showLoading !== false) {
-				this.isLoading = true;
+				this.isLoading++;
 			}
 			return config;
 		});
 		axios.interceptors.response.use((res) => {
-			this.isLoading = false;
+			this.isLoading--;
 			return res;
 		}, (error) => {
-			this.isLoading = false;
+			this.isLoading--;
 			alert('操作出错： ' + error.message);
 			return Promise.reject(error);
 		});
@@ -65,7 +65,7 @@ html {
 }
 body {
 	margin-left: 200px;
-	font-size: 14px;
+	font-size: 16px;
 	color: #333;
 }
 a { color: #09c; }

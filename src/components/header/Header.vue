@@ -35,9 +35,9 @@
 			<template v-if="me.usergroup.perm_manage_user >= 1">
 				<h2 class="c-header__nav__menu-title">用户</h2>
 				<ul class="c-header__nav__menu-list">
-					<li class="c-header__nav__menu-list__item">用户 ( <router-link to="/user/create/">新建</router-link> | <router-link to href="/user/list/">管理</router-link> )</li>
+					<li class="c-header__nav__menu-list__item">用户 ( <router-link to="/user/create">新建</router-link> | <router-link to href="/user/list">管理</router-link> )</li>
 					<li class="c-header__nav__menu-list__item" v-if="me.usergroup.perm_manage_user >= 2">
-						用户组 ( <router-link to="/usergroup/create/">新建</router-link> | <router-link to="/usergroup/list/">管理</router-link> )
+						用户组 ( <router-link to="/usergroup/create">新建</router-link> | <router-link to="/usergroup/list">管理</router-link> )
 					</li>
 				</ul>
 			</template>
@@ -45,8 +45,8 @@
 			<template v-if="me.usergroup.perm_manage_option >= 1">
 				<h2 class="c-header__nav__menu-title">站点设置</h2>
 				<ul class="c-header__nav__menu-list">
-					<li class="c-header__nav__menu-list__item"><router-link to="/options/update/">常规设置</router-link></li>
-					<li class="c-header__nav__menu-list__item">友情链接 ( <router-link to="/link/create/">新建</router-link> | <router-link to="/link/list/">管理</router-link> )</li>
+					<li class="c-header__nav__menu-list__item"><router-link to="/options/update">常规设置</router-link></li>
+					<li class="c-header__nav__menu-list__item">友情链接 ( <router-link to="/link/create">新建</router-link> | <router-link to="/link/list">管理</router-link> )</li>
 				</ul>
 			</template>
 		</nav>
@@ -102,6 +102,7 @@ export default {
 
 		&__menu-list {
 			margin-left: 1.5em;
+			font-size: 14px;
 
 			&__item {
 				margin-top: 12px;

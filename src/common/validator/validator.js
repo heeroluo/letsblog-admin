@@ -49,6 +49,11 @@ const ruleHelpers = {
 		},
 
 		message: '格式错误'
+	},
+
+	url: {
+		validate(value) { return /^https?:\/\//i.test(value); },
+		message: '不是合法的URL'
 	}
 };
 

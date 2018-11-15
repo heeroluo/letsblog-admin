@@ -9,7 +9,9 @@ export default {
 	},
 
 	mutations: {
-		setOptions(state, options) { state.options = options; }
+		set(state, options) { state.options = options; },
+
+		clear(state) { state.options = null; }
 	},
 
 	actions: {
@@ -19,8 +21,16 @@ export default {
 			const options = request('admin/options/read').then((res) => {
 				return res.options;
 			});
-			commit('setOptions', options);
+			commit('set', options);
 			return options;
+		},
+
+		async update({ commit }, data) {
+			await request('admin/options/update', {
+				method: 'put',
+				data
+			});
+			commit('clear');
 		}
 	}
 };

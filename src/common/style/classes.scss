@@ -2,6 +2,21 @@
 [v-cloak] { display: none; }
 
 
+@font-face {
+	font-family: "iconfont";
+	src: url('./iconfont/iconfont.woff') format('woff'),
+		url('./iconfont/iconfont.ttf?t=1542276950462') format('truetype');
+}
+
+.g-iconfont {
+	font-family: 'iconfont' !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
 /* 清浮动 */
 .g-clearfix:after {
 	display: block;
@@ -75,19 +90,39 @@
 /* 表单布局 */
 .g-form__row {
 	display: flex;
-	padding: 10px 0;
-	margin-left: 10px;
+	margin: 18px 0 0 10px;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+.g-form__row-button {
+	margin-top: 36px;
 }
 .g-form__row__col {
 	flex: 1;
+	margin-right: 40px;
+
+	&:last-child { margin-right: 0; }
 }
 
-.g-form-item {
-	display: flex;
-	margin-right: 1em;
-	padding-right: 30px;
+
+.g-form-item__label {
+	height: 26px;
+	line-height: 26px;
+	margin-bottom: 5px;
+	overflow: hidden;
+	font-weight: bold;
+
+	.g-required {
+		margin-left: 0.5em;
+		font-weight: normal;
+	}
 }
-.g-form-item__side {
+.g-form-item__body {
+	display: flex;
+}
+.g-form-item__body__side {
 	width: 30px;
 	text-align: center;
 }
@@ -101,6 +136,14 @@
 	color: #fd4f45;
 }
 
+.g-tips {
+	font-style: italic;
+	font-size: 14px;
+	color: #aaa;
+}
+
+
+
 
 /* 表单控件 */
 .g-textbox,
@@ -111,7 +154,7 @@
 	padding: 2px 8px;
 	border-radius: 3px;
 	border: 1px solid #d8d8d8;
-	background: #f9faf9;
+	background: #f8f8f8;
 	box-sizing: border-box;
 	transition: border-color 0.6s, background 0.6s;
 	font-size: 16px;
@@ -130,18 +173,25 @@ textarea.g-textbox {
 
 .g-selectbox { padding-left: 0; padding-right: 0; vertical-align: middle; }
 
-.radio-list { margin: 0 0 0 5px; }
-.radio-list li { margin: 7px 0; }
-.radio-list--inline li { display: inline-block; margin: 0 1em 0 0; }
-.radio-list--inline li:last-child { margin-right: 0; }
+.g-radio-list { margin: 0 0 0 5px; }
+.g-radio-list li { margin: 7px 0; }
+.g-radio-list-inline { line-height: 36px; }
+.g-radio-list-inline li {
+	display: inline-block;
+	margin: 0 1em 0 0;
+	vertical-align: middle;
+}
+.g-radio-list-inline li:last-child {
+	margin-right: 0;
+}
 
 .g-button {
-	padding: 0.5em 1.3em;
+	padding: 0.5em 1.5em;
 	border: 1px solid #acacac;
 	border-radius: 3px;
 	background: #eaeaea;
 	font-family: inherit;
-	font-size: inherit;
+	font-size: 16px;
 	cursor: pointer;
 	color: #000;
 	transition-duration: 0.4s;

@@ -70,6 +70,11 @@ body {
 }
 a { color: #09c; }
 a:hover { color: #f91; }
+input[type=checkbox] {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
 
 
 /* 主内容区 */

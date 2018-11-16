@@ -9,8 +9,8 @@
 					<li class="c-header__nav__menu-list__item"><router-link to="/article/create/">写文章</router-link></li>
 					<li class="c-header__nav__menu-list__item"><router-link to href="/article/list/?type=personal">我的文章</router-link></li>
 				</template>
-				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update/">修改资料</router-link></li>
-				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update/password/">修改密码</router-link></li>
+				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update">修改资料</router-link></li>
+				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update/password">修改密码</router-link></li>
 				<li class="c-header__nav__menu-list__item"><router-link to="/user/logout">登出</router-link></li>
 			</ul>
 
@@ -35,7 +35,7 @@
 			<template v-if="me.usergroup.perm_manage_user >= 1">
 				<h2 class="c-header__nav__menu-title">用户</h2>
 				<ul class="c-header__nav__menu-list">
-					<li class="c-header__nav__menu-list__item">用户 ( <router-link to="/user/create">新建</router-link> | <router-link to href="/user/list">管理</router-link> )</li>
+					<li class="c-header__nav__menu-list__item">用户 ( <router-link to="/user/create">新建</router-link> | <router-link to="/user/list">管理</router-link> )</li>
 					<li class="c-header__nav__menu-list__item" v-if="me.usergroup.perm_manage_user >= 2">
 						用户组 ( <router-link to="/usergroup/create">新建</router-link> | <router-link to="/usergroup/list">管理</router-link> )
 					</li>

@@ -4,18 +4,20 @@
 			class="c-paginator__item c-paginator__item-prev"
 			:class="{ 'c-paginator__item--disabled': data.currentPage <= 1 }"
 		>
-			<span class="c-paginator__item__inner g-iconfont"></span>
+			<span class="c-paginator__item__inner g-iconfont" @click="setPage(data.currentPage - 1)"></span>
 		</li>
 
 		<template v-for="(item, index) in data.pageNumbers">
-			<li v-if="item.page === currentPage" :key="index" class="c-paginator__item c-paginator__item-number c-paginator__item--current">
-				<span class="c-paginator__item__inner">{{ item.page }}</span>
-			</li>
-			<li v-else-if="item.page === '...'" :key="index" class="c-paginator__item c-paginator__item-ellipsis">
+			<li v-if="item.page === '...'" :key="index" class="c-paginator__item c-paginator__item-ellipsis">
 				<span class="c-paginator__item__inner g-iconfont"></span>
 			</li>
-			<li v-else :key="index" class="c-paginator__item c-paginator__item-number">
-				<span class="c-paginator__item__inner">{{ item.page }}</span>
+			<li
+				v-else
+				:key="index"
+				class="c-paginator__item c-paginator__item-number"
+				:class="{ 'c-paginator__item--current': item.page === currentPage }"
+			>
+				<span class="c-paginator__item__inner" @click="setPage(item.page)">{{ item.page }}</span>
 			</li>
 		</template>
 
@@ -23,7 +25,7 @@
 			class="c-paginator__item c-paginator__item-next"
 			:class="{ 'c-paginator__item--disabled': data.currentPage >= data.pageCount }"
 		>
-			<span class="c-paginator__item__inner g-iconfont"></span>
+			<span class="c-paginator__item__inner g-iconfont" @click="setPage(data.currentPage + 1)"></span>
 		</li>
 	</ol>
 </template>
@@ -44,6 +46,7 @@ export default {
 	},
 
 	computed: {
+		// 生成分页条数据
 		data() {
 			const currentPage = this.currentPage;
 			const pageCount = this.pageCount;
@@ -118,6 +121,12 @@ export default {
 				pageNumbers: data
 			};
 		}
+	},
+
+	methods: {
+		setPage(page) {
+			this.$emit('click', { page });
+		}
 	}
 };
 </script>
@@ -127,7 +136,6 @@ export default {
 .c-paginator {
 	position: relative;
 	width: 100%;
-	margin-top: 30px;
 	font-family: Tahoma;
 	text-align: center;
 }

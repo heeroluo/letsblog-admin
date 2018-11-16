@@ -88,6 +88,12 @@
 
 
 /* 表单布局 */
+.g-form__title {
+	margin-bottom: 8px;
+	padding: 0 6px 6px 10px;
+	border-bottom: 1px dotted #ccc;
+	font-size: 18px;
+}
 .g-form__row {
 	display: flex;
 	margin: 18px 0 0 10px;

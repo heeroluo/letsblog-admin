@@ -8,6 +8,8 @@ import LinkList from './views/link/List.vue';
 import LinkForm from './views/link/Form.vue';
 import UserGroupList from './views/usergroup/List.vue';
 import UserGroupForm from './views/usergroup/Form.vue';
+import UserList from './views/user/List.vue';
+import ArticleList from './views/article/List.vue';
 
 Vue.use(Router);
 
@@ -62,6 +64,16 @@ export default new Router({
 		{
 			path: '/usergroup/update/:id',
 			component: UserGroupForm
+		},
+
+		{
+			path: '/article/list',
+			component: ArticleList
+		},
+
+		{
+			path: '/user/list',
+			component: UserList
 		}
 
 		// {

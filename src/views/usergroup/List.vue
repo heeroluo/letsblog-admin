@@ -33,7 +33,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<paginator :pageCount="10" :currentPage="5" />
 		</div>
 	</div>
 </template>
@@ -41,17 +40,12 @@
 
 <script>
 import { request } from '@/common/api/api';
-import Paginator from '@/components/paginator/Paginator';
 
 export default {
 	data() {
 		return {
 			list: null
 		};
-	},
-
-	components: {
-		Paginator
 	},
 
 	methods: {

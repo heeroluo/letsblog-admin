@@ -2,7 +2,7 @@
 	<div>
 		<h2 class="l-main__title">用户管理</h2>
 		<div class="l-main__body">
-			<form class="g-form" style="margin-bottom: 2.5em;" @submit="search">
+			<form class="g-form" style="margin-bottom: 2.5em;" @submit.prevent="search">
 				<h3 class="g-form__title">用户搜索</h3>
 				<div class="g-form__row">
 					<div class="g-form__row__col">
@@ -24,7 +24,7 @@
 				</div>
 			</form>
 
-			<form class="g-form">
+			<form class="g-form" @submit.prevent="batchDelete">
 				<table class="g-datatable" v-if="dataList">
 					<thead>
 						<tr>
@@ -63,8 +63,8 @@
 								<td style="text-align: center;">{{ item.lastactivity | formatDate('YYYY-MM-DD hh:mm:ss') }}</td>
 								<td style="text-align: center;">{{ item.totalarticles }} / {{ item.totalcomments }}</td>
 								<td style="word-spacing: 1em; text-align: center;">
-									<router-link :to="'/admin/user/update/' + item.userid">编辑</router-link>{{ ' ' }}
-									<router-link :to="'/admin/user/update/password/' + item.username">修改密码</router-link>
+									<router-link :to="'/user/update/' + item.userid">编辑</router-link>{{ ' ' }}
+									<router-link :to="'/user/update/password/' + item.username">修改密码</router-link>
 								</td>
 							</tr>
 						</template>
@@ -82,7 +82,6 @@
 <script>
 import { request } from '@/common/api/api';
 import searchPage from '@/common/mixins/search-page';
-import axios from 'axios';
 
 export default {
 	mixins: [searchPage],
@@ -94,32 +93,30 @@ export default {
 	},
 
 	methods: {
-		async loadData() {
-			if (this.cancel) {
-				this.cancel();
-				this.cancel = null;
+		async batchDelete() {
+			if (!this.checkedIds.length) {
+				alert('请选择要操作的用户数据');
+				return;
 			}
 
-			const result = await request('admin/user/list', {
-				params: Object.assign({
-					page: this.page
-				}, this.queryParams),
+			if (window.confirm('确认要删除选中的用户吗？')) {
+				await request('admin/user/delete', {
+					method: 'delete',
+					data: {
+						userids: this.checkedIds
+					}
+				});
+				this.checkedIds = [];
 
-				cancelToken: new axios.CancelToken((c) => {
-					this.cancel = c;
-				})
-			});
-			this.cancel = null;
+				alert('删除成功');
 
-			this.pageCount = result.pageCount;
-			this.page = result.page;
-			this.dataList = result.rows;
-
-			window.scrollTo(0, 0);
+				await this.loadData();
+			}
 		}
 	},
 
 	async created() {
+		this.dataListAPI = 'admin/user/list';
 		this.params.groupid = '';
 		this.dataItemKey = 'groupid';
 		this.groupList = (await request('admin/usergroup/list')).userGroupList;

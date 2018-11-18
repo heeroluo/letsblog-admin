@@ -1,3 +1,5 @@
+import { request } from '@/common/api/api';
+import axios from 'axios';
 import Paginator from '@/components/paginator/Paginator';
 
 export default {
@@ -7,6 +9,8 @@ export default {
 
 	data() {
 		return {
+			// 数据列表API地址
+			dataListAPI: '',
 			// 当前页
 			page: 1,
 			// 总页数
@@ -34,10 +38,42 @@ export default {
 		queryParams() { this.loadData(); }
 	},
 
+	computed: {
+		dataListParams() {
+			return Object.assign({
+				page: this.page
+			}, this.queryParams);
+		}
+	},
+
 	methods: {
+		async loadData() {
+			if (this.cancel) {
+				this.cancel();
+				this.cancel = null;
+			}
+
+			const result = await request(this.dataListAPI, {
+				params: this.dataListParams,
+
+				cancelToken: new axios.CancelToken((c) => {
+					this.cancel = c;
+				})
+			});
+			this.cancel = null;
+
+			this.pageCount = result.pageCount;
+			this.page = result.page;
+			this.dataList = result.rows;
+
+			window.scrollTo(0, 0);
+		},
+
 		search() {
-			this.page = 1;
-			this.queryParams = Object.assign({}, this.params);
+			if (!this.validateSearch || this.validateSearch()) {
+				this.page = 1;
+				this.queryParams = Object.assign({}, this.params);
+			}
 		},
 
 		setPage(e) { this.page = e.page; },

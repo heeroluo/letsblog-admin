@@ -23,6 +23,11 @@ const ruleHelpers = {
 		message(max) { return '不能大于 ' + max; }
 	},
 
+	minLength: {
+		validate(value, min) { return value.length >= min; },
+		message(min) { return '不能少于' + min + '个字符'; }
+	},
+
 	weight: {
 		validate(value) {
 			value = Number(value);
@@ -54,6 +59,21 @@ const ruleHelpers = {
 	url: {
 		validate(value) { return /^https?:\/\//i.test(value); },
 		message: '不是合法的URL'
+	},
+
+	username: {
+		validate(value) { return /^\w{2,20}$/.test(value); },
+		message: '不是合法的用户名'
+	},
+
+	password: {
+		validate(value) {
+			return value.length >= 6 &&
+				value.length <= 16 &&
+				!/^\d+$/.test(value) &&
+				!/^[a-z]+$/i.test(value);
+		},
+		message: '必须为6-16位字符，且不能为纯数字或纯字母'
 	}
 };
 
@@ -75,33 +95,41 @@ export function validate(data, steps, options) {
 	const elements = options.elements;
 
 	return !steps.some((step) => {
-		const value = data[step.prop];
-		const isEmpty = value === '' || value == null;
 		let errMsg;
 
-		// 空值验证
-		if (isEmpty && step.required !== false) {
-			errMsg = step.name + ' 不能为空';
+		if (typeof step.rule === 'function') {
+			if (!step.rule(data)) {
+				errMsg = step.message;
+			}
 
-		// 具体规则验证
-		} else if (!isEmpty && step.rules) {
-			Object.keys(step.rules).some((key) => {
-				const helper = ruleHelpers[key];
-				if (!helper) {
-					throw new Error(`Rule "${ key }" does not exist`);
-				}
+		} else {
+			const value = data[step.prop];
+			const isEmpty = value === '' || value == null;
 
-				const refValue = step.rules[key];
-				const result = helper.validate(value, refValue);
-				if (!result) {
-					errMsg = step.name + ' ' + (
-						typeof helper.message === 'function' ?
-							helper.message(refValue) :
-							helper.message
-					);
-					return true;
-				}
-			});
+			// 空值验证
+			if (isEmpty && step.required !== false) {
+				errMsg = step.name + ' 不能为空';
+
+			// 具体规则验证
+			} else if (!isEmpty && step.rules) {
+				Object.keys(step.rules).some((key) => {
+					const helper = ruleHelpers[key];
+					if (!helper) {
+						throw new Error(`Rule "${ key }" does not exist`);
+					}
+
+					const refValue = step.rules[key];
+					const result = helper.validate(value, refValue);
+					if (!result) {
+						errMsg = step.name + ' ' + (
+							typeof helper.message === 'function' ?
+								helper.message(refValue) :
+								helper.message
+						);
+						return true;
+					}
+				});
+			}
 		}
 
 		if (errMsg) {
@@ -113,12 +141,6 @@ export function validate(data, steps, options) {
 		}
 	});
 }
-
-
-
-
-
-
 
 
 

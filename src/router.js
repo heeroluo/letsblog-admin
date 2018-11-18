@@ -9,6 +9,8 @@ import LinkForm from './views/link/Form.vue';
 import UserGroupList from './views/usergroup/List.vue';
 import UserGroupForm from './views/usergroup/Form.vue';
 import UserList from './views/user/List.vue';
+import UserForm from './views/user/Form.vue';
+import PasswordForm from './views/user/Password.vue';
 import ArticleList from './views/article/List.vue';
 
 Vue.use(Router);
@@ -74,6 +76,29 @@ export default new Router({
 		{
 			path: '/user/list',
 			component: UserList
+		},
+		{
+			path: '/user/create',
+			component: UserForm
+		},
+		{
+			path: '/user/update/:id',
+			component: UserForm
+		},
+		{
+			path: '/user/i/update',
+			component: UserForm,
+			meta: {
+				isUpdate: 2
+			}
+		},
+		{
+			path: '/user/i/update/password',
+			component: PasswordForm
+		},
+		{
+			path: '/user/update/password/:username',
+			component: PasswordForm
 		}
 
 		// {

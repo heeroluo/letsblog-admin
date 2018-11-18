@@ -10,12 +10,12 @@
 				<div class="g-form__row">
 					<div class="g-form__row__col">
 						<div class="g-form-item">
-							<input class="g-textbox" name="title" type="text" placeholder="文章标题" maxlength="100" v-model.trim="params.title" />
+							<input class="g-textbox" type="text" placeholder="文章标题" maxlength="100" v-model.trim="params.title" />
 						</div>
 					</div>
 					<div class="g-form__row__col">
 						<div class="g-form-item">
-							<input class="g-textbox" name="username" type="text" placeholder="发布者" maxlength="20" v-model.trim="params.username" />
+							<input class="g-textbox" type="text" placeholder="发布者" maxlength="20" v-model.trim="params.username" />
 						</div>
 					</div>
 					<div class="g-form__row__col">
@@ -30,17 +30,17 @@
 				<div class="g-form__row">
 					<div class="g-form__row__col">
 						<div class="g-form-item">
-							<input class="g-textbox" name="min_weight" type="text" placeholder="最小权重" maxlength="3" v-model.number="params.min_weight" />
+							<input class="g-textbox" type="text" placeholder="最小权重" maxlength="3" v-model.number="params.min_weight" />
 						</div>
 					</div>
 					<div class="g-form__row__col">
 						<div class="g-form-item">
-							<input class="g-textbox" name="max_weight" type="text" placeholder="最大权重" maxlength="3" v-model.number="params.max_weight" />
+							<input class="g-textbox" type="text" placeholder="最大权重" maxlength="3" v-model.number="params.max_weight" />
 						</div>
 					</div>
 					<div class="g-form__row__col">
 						<div class="g-form-item">
-							<select name="state" class="g-selectbox" v-model.number="params.state">
+							<select class="g-selectbox" v-model.number="params.state">
 								<option value="">发布状态</option>
 								<option value="0">状态：草稿</option>
 								<option value="1">状态：已发布</option>
@@ -111,9 +111,9 @@
 
 <script>
 import { request } from '@/common/api/api';
+import { validate } from '@/common/validator/validator';
 import loadOptions from '@/common/mixins/load-options';
 import searchPage from '@/common/mixins/search-page';
-import axios from 'axios';
 
 export default {
 	mixins: [searchPage, loadOptions],
@@ -127,38 +127,39 @@ export default {
 		};
 	},
 
+	computed: {
+		dataListParams() {
+			return Object.assign({
+				type: this.isPersonalPage ? 'personal' : '',
+				page: this.page
+			}, this.queryParams);
+		}
+	},
+
 	methods: {
-		async loadData() {
-			if (this.cancel) {
-				this.cancel();
-				this.cancel = null;
-			}
+		batch() {},
 
-			const result = await request('admin/article/list', {
-				params: Object.assign({
-					type: this.isPersonalPage ? 'personal' : '',
-					page: this.page
-				}, this.queryParams),
-
-				cancelToken: new axios.CancelToken((c) => {
-					this.cancel = c;
-				})
-			});
-			this.cancel = null;
-
-			this.pageCount = result.pageCount;
-			this.page = result.page;
-			this.dataList = result.rows;
-
-			window.scrollTo(0, 0);
-		},
-
-
-		batch() {}
+		validateSearch() {
+			return validate(this.params, [{
+				name: '最小权重',
+				prop: 'min_weight',
+				rule: { weight: true }
+			}, {
+				name: '最大权重',
+				prop: 'max_weight',
+				rule: { weight: true }
+			}, {
+				rule(data) {
+					return data.max_weight >= data.min_weight;
+				},
+				message: '最小权重不能大于最大权重'
+			}]);
+		}
 	},
 
 	async created() {
 		this.isPersonalPage = this.$route.params.type === 'personal';
+		this.dataListAPI = 'admin/article/list';
 		this.params.categoryid = '';
 		this.params.state = '';
 		this.dataItemKey = 'articleid';

@@ -48,7 +48,7 @@ export default {
 	methods: {
 		async del(id) {
 			if (window.confirm('确认要删除此链接吗？')) {
-				await request('admin/link/delete', {
+				await request('link/delete', {
 					method: 'delete',
 					params: { id }
 				});
@@ -61,7 +61,7 @@ export default {
 	},
 
 	async created() {
-		this.list = (await request('admin/link/list')).linkList || [];
+		this.list = (await request('link/list')).linkList || [];
 	}
 };
 </script>

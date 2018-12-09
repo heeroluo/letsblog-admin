@@ -2,7 +2,7 @@
 	<div>
 		<h2 class="l-main__title">分类管理</h2>
 		<div class="l-main__body">
-			<table class="g-datatable" v-if="list && currentOptions">
+			<table class="g-datatable" v-if="list">
 				<thead>
 					<tr>
 						<th>分类名</th>
@@ -14,7 +14,7 @@
 				<tbody>
 					<template v-if="list.length > 0">
 						<tr v-for="item in list" :key="item.categoryid">
-							<td><a :href="item.href | joinURL(currentOptions.siteurl)" target="_blank">{{ item.categoryname }}</a></td>
+							<td><a :href="item.href" target="_blank">{{ item.categoryname }}</a></td>
 							<td style="text-align: center;">{{ item.weight }}</td>
 							<td style="text-align: center;">{{ item.totalarticles }}</td>
 							<td style="word-spacing: 1em; text-align: center;">
@@ -35,11 +35,8 @@
 
 <script>
 import { request } from '@/common/api/api';
-import loadOptions from '@/common/mixins/load-options';
 
 export default {
-	mixins: [loadOptions],
-
 	data() {
 		return {
 			list: null
@@ -49,7 +46,7 @@ export default {
 	methods: {
 		async del(id) {
 			if (window.confirm('确认要删除此分类吗？')) {
-				await request('admin/category/delete', {
+				await request('category/delete', {
 					method: 'delete',
 					params: { id }
 				});
@@ -62,7 +59,7 @@ export default {
 	},
 
 	async created() {
-		this.list = (await request('admin/category/list')).categoryList || [];
+		this.list = (await request('category/list')).categoryList || [];
 	}
 };
 </script>

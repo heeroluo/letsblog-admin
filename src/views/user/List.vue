@@ -100,7 +100,7 @@ export default {
 			}
 
 			if (window.confirm('确认要删除选中的用户吗？')) {
-				await request('admin/user/delete', {
+				await request('user/delete', {
 					method: 'delete',
 					data: {
 						userids: this.checkedIds
@@ -116,10 +116,10 @@ export default {
 	},
 
 	async created() {
-		this.dataListAPI = 'admin/user/list';
+		this.dataListAPI = 'user/list';
 		this.params.groupid = '';
 		this.dataItemKey = 'groupid';
-		this.groupList = (await request('admin/usergroup/list')).userGroupList;
+		this.groupList = (await request('usergroup/list')).userGroupList;
 		this.loadData();
 	}
 };

@@ -51,7 +51,7 @@ export default {
 	methods: {
 		async del(id) {
 			if (window.confirm('确认要删除此链接吗？')) {
-				await request('admin/usergroup/delete', {
+				await request('usergroup/delete', {
 					method: 'delete',
 					params: { id }
 				});
@@ -64,7 +64,7 @@ export default {
 	},
 
 	async created() {
-		this.list = (await request('admin/usergroup/list')).userGroupList || [];
+		this.list = (await request('usergroup/list')).userGroupList || [];
 	}
 };
 </script>

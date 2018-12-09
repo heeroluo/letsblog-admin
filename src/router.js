@@ -12,6 +12,8 @@ import UserList from './views/user/List.vue';
 import UserForm from './views/user/Form.vue';
 import PasswordForm from './views/user/Password.vue';
 import ArticleList from './views/article/List.vue';
+import ArticleForm from './views/article/Form.vue';
+
 
 Vue.use(Router);
 
@@ -71,6 +73,14 @@ export default new Router({
 		{
 			path: '/article/list',
 			component: ArticleList
+		},
+		{
+			path: '/article/create',
+			component: ArticleForm
+		},
+		{
+			path: '/article/update/:id',
+			component: ArticleForm
 		},
 
 		{

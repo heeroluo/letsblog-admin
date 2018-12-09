@@ -18,7 +18,7 @@ export default {
 		async load({ state, commit }) {
 			if (state.me) { return state.me; }
 
-			const options = request('admin/options/read').then((res) => {
+			const options = request('options/read').then((res) => {
 				return res.options;
 			});
 			commit('set', options);
@@ -26,7 +26,7 @@ export default {
 		},
 
 		async update({ commit }, data) {
-			await request('admin/options/update', {
+			await request('options/update', {
 				method: 'put',
 				data
 			});

@@ -91,7 +91,7 @@ export default {
 
 			if (result) {
 				if (this.username) {
-					await request('admin/user/update/password', {
+					await request('user/update/password', {
 						method: 'put',
 						data: {
 							username: this.username,
@@ -102,7 +102,7 @@ export default {
 					this.$router.push('/user/list');
 
 				} else {
-					await request('admin/user/i/update/password', {
+					await request('user/i/update/password', {
 						method: 'put',
 						data: {
 							oldpassword: this.data.oldpassword,

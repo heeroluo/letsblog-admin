@@ -42,11 +42,13 @@ export default {
 			return config;
 		});
 		axios.interceptors.response.use((res) => {
-			this.isLoading--;
+			this.isLoading = Math.max(0, this.isLoading - 1);
 			return res;
 		}, (error) => {
-			this.isLoading--;
-			alert('操作出错： ' + error.message);
+			this.isLoading = Math.max(0, this.isLoading - 1);
+			if (!axios.isCancel(error)) {
+				alert('操作出错： ' + error.message);
+			}
 			return Promise.reject(error);
 		});
 	},

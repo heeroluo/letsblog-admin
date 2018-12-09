@@ -117,13 +117,13 @@ export default {
 
 			if (result) {
 				if (this.isUpdate) {
-					await request('admin/usergroup/update', {
+					await request('usergroup/update', {
 						method: 'put',
 						data: this.userGroup
 					});
 					alert('修改成功');
 				} else {
-					await request('admin/usergroup/create', {
+					await request('usergroup/create', {
 						method: 'post',
 						data: this.userGroup
 					});
@@ -139,7 +139,7 @@ export default {
 		const id = this.$route.params.id;
 		if (id) {
 			this.userGroup = (
-				await request('admin/usergroup/read', {
+				await request('usergroup/read', {
 					params: { id }
 				})
 			).userGroup;

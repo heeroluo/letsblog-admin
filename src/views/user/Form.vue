@@ -134,7 +134,7 @@ export default {
 
 				switch (this.isUpdate) {
 					case 0:
-						await request('admin/user/create', {
+						await request('user/create', {
 							method: 'post',
 							data
 						});
@@ -143,7 +143,7 @@ export default {
 						break;
 
 					case 1:
-						await request('admin/user/update', {
+						await request('user/update', {
 							method: 'put',
 							data
 						});
@@ -152,7 +152,7 @@ export default {
 						break;
 
 					case 2:
-						await request('admin/user/i/update', {
+						await request('user/i/update', {
 							method: 'put',
 							data
 						});
@@ -164,14 +164,14 @@ export default {
 	},
 
 	async created() {
-		this.groupList = (await request('admin/usergroup/list')).userGroupList;
+		this.groupList = (await request('usergroup/list')).userGroupList;
 
 		this.isUpdate = this.$route.meta.isUpdate || (
 			this.$route.params.id ? 1 : 0
 		);
 		switch (this.isUpdate) {
 			case 1:
-				this.user = (await request('admin/user/read', {
+				this.user = (await request('user/read', {
 					params: { id: this.$route.params.id }
 				})).user;
 				break;

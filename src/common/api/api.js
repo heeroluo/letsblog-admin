@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const defaultConfig = {
 	timeout: 3000,
-	baseURL: 'http://localhost:3020/',
+	baseURL: '/admin-api/',
 	withCredentials: true,
 	validateStatus() { return true; }
 };

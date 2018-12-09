@@ -69,13 +69,13 @@ export default {
 
 			if (result) {
 				if (this.isUpdate) {
-					await request('admin/category/update', {
+					await request('category/update', {
 						method: 'put',
 						data: this.category
 					});
 					alert('修改成功');
 				} else {
-					await request('admin/category/create', {
+					await request('category/create', {
 						method: 'post',
 						data: this.category
 					});
@@ -91,7 +91,7 @@ export default {
 		const id = this.$route.params.id;
 		if (id) {
 			this.category = (
-				await request('admin/category/read', {
+				await request('category/read', {
 					params: { id }
 				})
 			).category;

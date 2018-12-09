@@ -78,13 +78,13 @@ export default {
 
 			if (result) {
 				if (this.isUpdate) {
-					await request('admin/link/update', {
+					await request('link/update', {
 						method: 'put',
 						data: this.link
 					});
 					alert('修改成功');
 				} else {
-					await request('admin/link/create', {
+					await request('link/create', {
 						method: 'post',
 						data: this.link
 					});
@@ -100,7 +100,7 @@ export default {
 		const id = this.$route.params.id;
 		if (id) {
 			this.link = (
-				await request('admin/link/read', {
+				await request('link/read', {
 					params: { id }
 				})
 			).link;

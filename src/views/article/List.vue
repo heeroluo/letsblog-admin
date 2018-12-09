@@ -86,7 +86,7 @@
 									<input type="checkbox" :value="item.articleid" v-model.number="checkedIds" />
 								</td>
 								<td>
-									<a :href="item.href | joinURL(currentOptions.siteurl)" target="_blank">{{ item.title }}</a>
+									<a :href="item.href" target="_blank">{{ item.title }}</a>
 								</td>
 								<td style="text-align: center;">{{ item.category.categoryname }}</td>
 								<td style="text-align: center;">{{ item.user.name }}</td>
@@ -112,11 +112,10 @@
 <script>
 import { request } from '@/common/api/api';
 import { validate } from '@/common/validator/validator';
-import loadOptions from '@/common/mixins/load-options';
 import searchPage from '@/common/mixins/search-page';
 
 export default {
-	mixins: [searchPage, loadOptions],
+	mixins: [searchPage],
 
 	data() {
 		return {
@@ -159,11 +158,11 @@ export default {
 
 	async created() {
 		this.isPersonalPage = this.$route.params.type === 'personal';
-		this.dataListAPI = 'admin/article/list';
+		this.dataListAPI = 'article/list';
 		this.params.categoryid = '';
 		this.params.state = '';
 		this.dataItemKey = 'articleid';
-		this.categoryList = (await request('admin/category/list')).categoryList;
+		this.categoryList = (await request('category/list')).categoryList;
 		this.loadData();
 	}
 };

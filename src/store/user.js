@@ -16,7 +16,7 @@ export default {
 		async login({ state, commit }) {
 			if (state.me) { return state.me; }
 
-			const me = request('admin/user/whoAmI').then((res) => {
+			const me = request('user/whoAmI').then((res) => {
 				return res.me || false;
 			});
 			commit('setMe', me);

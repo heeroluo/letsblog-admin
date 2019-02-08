@@ -27,8 +27,8 @@
 			<template v-if="me.usergroup.perm_manage_comment >= 1">
 				<h2 class="c-header__nav__menu-title">评论</h2>
 				<ul class="c-header__nav__menu-list">
-					<li class="c-header__nav__menu-list__item"><router-link to="/comment/list/?state=0">审核评论</router-link></li>
-					<li class="c-header__nav__menu-list__item"><router-link to="/comment/list/">评论管理</router-link></li>
+					<li class="c-header__nav__menu-list__item"><router-link to="/comment/list?type=audit">审核评论</router-link></li>
+					<li class="c-header__nav__menu-list__item"><router-link to="/comment/list">评论管理</router-link></li>
 				</ul>
 			</template>
 

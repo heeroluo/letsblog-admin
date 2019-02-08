@@ -1,6 +1,3 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-
 module.exports = {
 	baseUrl: '/admin/',
 

@@ -28,7 +28,10 @@ input {
 input[type=radio] { -webkit-appearance: radio; }
 input[type=checkbox] { -webkit-appearance: checkbox; }
 input[disabled] { opacity: 1; }
-input:focus, textarea:focus, button { outline: none; }
+input:focus,
+textarea:focus,
+select:focus,
+button { outline: none; }
 
 
 /* placeholder默认颜色 */

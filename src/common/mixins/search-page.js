@@ -32,7 +32,11 @@ export default {
 
 	watch: {
 		// 页码变化时加载对应页数据
-		page() { this.loadData(); },
+		page(newValue, oldValue) {
+			if (oldValue !== -1) {
+				this.loadData();
+			}
+		},
 
 		// 查询参数变化时重新加载数据
 		queryParams() { this.loadData(); }

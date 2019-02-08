@@ -53,8 +53,8 @@
 			<div class="g-form__row">
 				<div class="g-form__row__col">
 					<div class="g-form-item" v-if="canSetWeight">
-						<p class="g-form-item__label">权重</p>
-						<input class="g-textbox" ref="weight" type="text" placeholder="0~255" maxlength="3" />
+						<p class="g-form-item__label">权重<em class="g-required">*</em></p>
+						<input class="g-textbox" ref="weight" type="text" placeholder="0~255" maxlength="3" v-model.number="article.weight" />
 					</div>
 				</div>
 				<div class="g-form__row__col"></div>
@@ -91,9 +91,9 @@
 					<div class="g-form-item p-submit__item">
 						<input type="submit" value="提 交" class="g-button" />
 					</div>
-					<div class="g-form-item p-submit__item p-submit__item-update-pubtime">
+					<div v-if="isUpdate" class="g-form-item p-submit__item p-submit__item-update-pubtime">
 						<ul class="g-radio-list g-radio-list-inline">
-							<li><label><input type="checkbox" ref="update-pubtime" value="1" /> 更新发布时间</label></li>
+							<li><label><input type="checkbox" value="1" v-model.number="updatePubTime" /> 更新发布时间</label></li>
 						</ul>
 					</div>
 				</div>
@@ -107,17 +107,21 @@
 <script>
 import axios from 'axios';
 import { request } from '@/common/api/api';
+import { validate } from '@/common/validator/validator';
 const { getScript } = require('jraiser/ajax/1.5/ajax');
 
 export default {
 	data() {
 		return {
-			editor: null,
+			editorPromise: null,
 			isUpdate: false,
+			updatePubTime: 0,
 			categoryList: [],
 			article: {
 				categoryid: '',
-				state: ''
+				state: '',
+				weight: 60,
+				content: ''
 			},
 			canSetWeight: false,
 			uploadList: []
@@ -167,6 +171,7 @@ export default {
 			};
 			this.uploadList.push(task);
 
+			// 清空控件值，避免不能上传同一个文件
 			this.$refs.file.value = '';
 
 			const formData = new FormData();
@@ -196,6 +201,36 @@ export default {
 			}
 		},
 
+		async getEditor() {
+			if (!this.editorPromise) {
+				this.editorPromise = getScript(
+					process.env.BASE_URL + 'static/ckeditor/4.11/ckeditor.js'
+				).then(() => {
+					const CKEDITOR = window.CKEDITOR;
+					return CKEDITOR.replace(this.$refs.content, {
+						height: 350,
+						contentsCss: '/article/contentCSS',
+						bodyClass: 'article__content'
+					});
+				});
+			}
+			return this.editorPromise;
+		},
+
+		async setEditorData(data) {
+			const editor = await this.getEditor();
+			return new Promise((resolve) => {
+				editor.setData(data, {
+					callback: resolve,
+					noSnapshot: true
+				});
+			});
+		},
+
+		async getEditorData() {
+			return (await this.getEditor()).getData();
+		},
+
 		insertLink(path) {
 			const text = window.prompt('请输入链接文字');
 			if (text) {
@@ -210,28 +245,90 @@ export default {
 			this.editor.insertHtml(
 				`<img src="${ path }" alt="${ alt }" />`
 			);
+		},
+
+		async submit() {
+			let result = validate(this.article, [{
+				name: '标题',
+				prop: 'title'
+			}, {
+				name: '英文标题',
+				prop: 'title_en',
+				required: false,
+				rules: {
+					enTitle: true
+				}
+			}, {
+				name: '分类',
+				prop: 'categoryid'
+			}, {
+				name: '状态',
+				prop: 'state'
+			}, {
+				name: '权重',
+				prop: 'weight',
+				rules: {
+					weight: true
+				}
+			}], {
+				elements: this.$refs
+			});
+
+			if (result) {
+				const article = Object.assign({}, this.article, {
+					content: await this.getEditorData()
+				});
+
+				if (this.isUpdate) {
+					result = await request('article/update', {
+						method: 'put',
+						data: {
+							article,
+							updatePubTime: !!this.updatePubTime
+						}
+					});
+					alert('编辑成功');
+
+				} else {
+					result = await request('article/create', {
+						method: 'post',
+						data: article
+					});
+					// 创建文章后切换到编辑模式
+					this.article.articleid = result.articleid;
+					this.isUpdate = true;
+					alert('创建成功，您可以继续编辑文章');
+				}
+			}
+		}
+	},
+
+	watch: {
+		'article.content'(value) {
+			this.setEditorData(value);
 		}
 	},
 
 	async created() {
+		const id = this.$route.params.id;
+		if (id) {
+			this.article = (
+				await request('article/read', {
+					params: { id }
+				})
+			).article;
+			this.isUpdate = true;
+		} else {
+			this.isUpdate = false;
+		}
+
 		this.categoryList = (await request('category/list')).categoryList || [];
 		const me = await this.$store.dispatch('user/login');
 		this.canSetWeight = me.usergroup.perm_manage_article > 0;
-
-		// CKEDITOR.on('instanceReady', function() {
-		// 	this.instances.content.setData({{{ jsonEncode(article.content) }}});
-		// });
 	},
 
 	async mounted() {
-		await getScript(process.env.BASE_URL + 'static/ckeditor/4.11/ckeditor.js');
-
-		const CKEDITOR = window.CKEDITOR;
-		this.editor = CKEDITOR.replace(this.$refs.content, {
-			height: 350,
-			contentsCss: '/article/contentCSS',
-			bodyClass: 'article__content'
-		});
+		await this.getEditor();
 	}
 };
 </script>

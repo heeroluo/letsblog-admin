@@ -53,7 +53,7 @@
 				</div>
 			</form>
 
-			<form class="g-form" @submit="batch" v-if="dataList">
+			<form class="g-form" @submit.prevent="batch" v-if="dataList">
 				<table class="g-datatable">
 					<thead>
 						<tr>
@@ -136,7 +136,22 @@ export default {
 	},
 
 	methods: {
-		batch() {},
+		async batch() {
+			if (!this.checkedIds.length) {
+				alert('请选中要操作的文章');
+				return;
+			}
+			if (window.confirm('确认要删除选中的文章吗？')) {
+				await request('article/list/batch', {
+					method: 'post',
+					data: {
+						articleids: this.checkedIds
+					}
+				});
+				alert('操作成功');
+				await this.loadData();
+			}
+		},
 
 		validateSearch() {
 			return validate(this.params, [{
@@ -157,7 +172,7 @@ export default {
 	},
 
 	async created() {
-		this.isPersonalPage = this.$route.params.type === 'personal';
+		this.isPersonalPage = this.$route.query.type === 'personal';
 		this.dataListAPI = 'article/list';
 		this.params.categoryid = '';
 		this.params.state = '';

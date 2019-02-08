@@ -7,7 +7,7 @@
 			<ul class="c-header__nav__menu-list">
 				<template v-if="me.usergroup.perm_article >= 1">
 					<li class="c-header__nav__menu-list__item"><router-link to="/article/create">写文章</router-link></li>
-					<li class="c-header__nav__menu-list__item"><router-link to href="/article/list/?type=personal">我的文章</router-link></li>
+					<li class="c-header__nav__menu-list__item"><router-link to="/article/list?type=personal">我的文章</router-link></li>
 				</template>
 				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update">修改资料</router-link></li>
 				<li class="c-header__nav__menu-list__item"><router-link to="/user/i/update/password">修改密码</router-link></li>
